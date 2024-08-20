@@ -18,7 +18,7 @@ const {subTitleText, linkAccountText, toggleAuth} = useAuth()
                 </a>
             </div>
 
-            <form @submit.prevent="submitForm">
+            <!-- <form @submit.prevent="submitForm">
                 <label for="email1" class="block text-900 font-medium mb-2">Email</label>
                 <InputText v-model="email" id="email1" type="email" class="w-full mb-3" />
 
@@ -27,7 +27,7 @@ const {subTitleText, linkAccountText, toggleAuth} = useAuth()
 
                 <Button :label="submitButtonText" type="submit" icon="pi pi-user" :loading="isLoading"
                     class="w-full"></Button>
-            </form>
+            </form> -->
         </div>
     </div>
 </template>
