@@ -1,6 +1,8 @@
 import './assets/main.scss'
 import 'primeicons/primeicons.css'
 import 'primeflex/primeflex.min.css'
+// import 'primevue/resources/themes/aura-light-blue/theme.css'
+
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
@@ -8,11 +10,11 @@ import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
 import PrimeVue from 'primevue/config';
+import { initFireBaseApp } from './service/firebase.config'
 
 
-import 'primevue/resources/themes/aura-light-blue/theme.css'
 
-
+export const fireBaseInst = initFireBaseApp();
 const app = createApp(App);
 
 
@@ -29,5 +31,4 @@ app.use({
 })
 
 app.mount('#app')
-
 
