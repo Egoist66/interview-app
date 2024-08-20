@@ -14,6 +14,9 @@ importers:
       pinia:
         specifier: ^2.1.7
         version: 2.2.2(typescript@5.4.5)(vue@3.4.38(typescript@5.4.5))
+      primeflex:
+        specifier: ^3.3.1
+        version: 3.3.1
       primeicons:
         specifier: ^7.0.0
         version: 7.0.0
@@ -1001,6 +1004,9 @@ packages:
   postcss@8.4.41:
     resolution: {integrity: sha512-TesUflQ0WKZqAvg52PWL6kHgLKP6xB6heTOdoYM0Wt2UHyxNa4K25EZZMgKns3BH1RLVbZCREPpLY0rhnNoHVQ==}
     engines: {node: ^10 || ^12 || >=14}
+
+  primeflex@3.3.1:
+    resolution: {integrity: sha512-zaOq3YvcOYytbAmKv3zYc+0VNS9Wg5d37dfxZnveKBFPr7vEIwfV5ydrpiouTft8MVW6qNjfkaQphHSnvgQbpQ==}
 
   primeicons@7.0.0:
     resolution: {integrity: sha512-jK3Et9UzwzTsd6tzl2RmwrVY/b8raJ3QZLzoDACj+oTJ0oX7L9Hy+XnVwgo4QVKlKpnP/Ur13SXV/pVh4LzaDw==}
@@ -2160,6 +2166,8 @@ snapshots:
       nanoid: 3.3.7
       picocolors: 1.0.1
       source-map-js: 1.2.0
+
+  primeflex@3.3.1: {}
 
   primeicons@7.0.0: {}
 

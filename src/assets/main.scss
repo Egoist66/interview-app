@@ -1,0 +1,22 @@
+a {
+    text-decoration: none;
+
+}
+body,html {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+.container {
+    max-width: 1390px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+#layout {
+    padding: 30px 0px;
+}
