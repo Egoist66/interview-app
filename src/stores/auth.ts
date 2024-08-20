@@ -1,12 +1,17 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
+import { useRouter } from 'vue-router'
 
 export const useAuthStore = defineStore('auth', () => {
-  const userId = ref<string>('ww')
+  const router = useRouter()
+  const userId = ref<string>('asdas')
 
 
-  const clearUser = () => {
+  const clearUser = (callback: () => void) => {
     userId.value = ''
+
+    callback()
+
   }
 
 

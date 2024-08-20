@@ -5,7 +5,7 @@
 
 <template>
     <div>
-        Interview
+        Interview List
     </div>
 </template>
 

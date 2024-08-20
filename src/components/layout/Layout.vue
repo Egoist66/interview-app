@@ -9,9 +9,11 @@ const router = useRouter()
 
 
 onMounted(() => {
-    if(!auth.userId.length) {
-        router.replace('/auth')
+    if(auth.userId.length) {
+        router.replace('/')
+
     }
+    
 })
 
 </script>

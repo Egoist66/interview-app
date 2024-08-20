@@ -2,9 +2,11 @@
 <script setup lang="ts">
 import { useRouterLinks } from '@/composables/useRouterLinks';
 import { useAuthStore } from '@/stores/auth';
+import { useRouter } from 'vue-router';
 
 const auth = useAuthStore()
 const {routeLinks} = useRouterLinks()
+const router = useRouter()
 </script>
 
 
@@ -21,7 +23,7 @@ const {routeLinks} = useRouterLinks()
         </template>
         <template #end>
             <template v-if="auth.userId.length">
-                <div @click="auth.clearUser()" class="flex align-items-center gap-2">
+                <div @click="auth.clearUser(() => router.replace('/auth'))" class="flex align-items-center gap-2">
                     <div class="menu-exit flex align-items-center">
                         <span class="pi pi-sign-out p-menuitem-icon"/>
                         <span class="ml-2">Выйти</span>
