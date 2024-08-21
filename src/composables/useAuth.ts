@@ -68,14 +68,14 @@ export const useAuth = () => {
        
       } else {
         await createUserWithEmailAndPassword(
-            getAuth(),
+          getAuth(),
           email.value,
           password.value
         );
 
         await delay(1000);
         clearFields();
-        isLogin.value = true
+        
 
       }
     } catch (error: any) {

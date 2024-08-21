@@ -1,6 +1,6 @@
 import { useAuthStore } from '@/stores/auth'
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { createRouter, createWebHistory, type NavigationGuardNext, type RouteLocationNormalizedGeneric, type RouteLocationNormalized } from 'vue-router'
-
 
 /**
  * Validates the current route and redirects to the authentication page if the user is not authenticated.
