@@ -14,7 +14,7 @@ export const useTheme = (): { theme: Ref<'aura-light-blue' | 'aura-dark-blue'>; 
 
 
     const theme = ref<ThemeMode>(localStorage.getItem('theme') as ThemeMode || 'aura-light-blue')
-    const computedThemeStyle = computed(() => theme.value === 'aura-light-blue' ? '/themes/aura-light-blue/theme.css' : '/themes/aura-dark-blue/theme.css')
+    const computedThemeStyle = computed(() => theme.value === 'aura-light-blue' ? '/themes/aura-light-blue/theme.min.css' : '/themes/aura-dark-blue/theme.min.css')
 
     const link = document.createElement('link');
     link.rel = 'stylesheet';
