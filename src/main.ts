@@ -10,6 +10,7 @@ import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
 import PrimeVue from 'primevue/config';
+import ToastServie from 'primevue/toastservice';
 import { initFireBaseApp } from './service/firebase.config'
 
 
@@ -18,7 +19,7 @@ export const fireBaseInst = initFireBaseApp();
 const app = createApp(App);
 
 
-
+app.use(ToastServie);
 app.use(PrimeVue, {
     ripple: true
 });

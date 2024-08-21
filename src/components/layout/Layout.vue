@@ -1,16 +1,25 @@
 <script setup lang="ts">
+import { useAuth } from '@/composables/useAuth';
 import { useTheme } from '@/composables/useTheme';
 import { useAuthStore } from '@/stores/auth';
-import { onMounted } from 'vue';
+import {onBeforeMount, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 
 
 const auth = useAuthStore()
+const {checkIsAuth} = useAuth()
 const router = useRouter()
-
 const {theme, toggleTheme} = useTheme()
 
-onMounted(() => {
+
+onBeforeMount(() => {
+   checkIsAuth()
+})
+
+
+onMounted(async () => {
+
+
     if(auth.userId.length) {
         router.replace('/')
 
