@@ -20,3 +20,9 @@ body {
 #layout {
     padding: 30px 0px;
 }
+
+img {
+    max-width: 100%;
+    display: block;
+    object-fit: cover;
+}

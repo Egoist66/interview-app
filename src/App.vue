@@ -25,7 +25,7 @@ onMounted(async () => {
 
 watch(auth, async () => {
     if(auth.userId.length) {
-        await router.replace('/')
+      await router.replace('/')
     }
 })
 

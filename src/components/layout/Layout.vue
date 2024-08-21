@@ -25,7 +25,9 @@ const {user} = storeToRefs(useAuthStore())
                 </Button>
 
                 
-                <Avatar v-tooltip.bottom="'Пользователь:' + ' ' + user?.email + '\n\n' + 'ID: '  + user?.uid + ' '" v-if="user?.uid" icon="pi pi-user" class="mr-2" size="normal" shape="circle" />
+                <RouterLink class="profile-link" :to="`/profile/user/${user?.uid}`">
+                    <Avatar  v-if="user?.uid" icon="pi pi-user" class="mr-2" size="normal" shape="circle" />
+                </RouterLink>
 
             </div>
     
@@ -52,6 +54,10 @@ const {user} = storeToRefs(useAuthStore())
 
 main {
     padding-top: 30px;
+}
+
+.profile-link {
+    color: deepskyblue;
 }
 
 

@@ -18,7 +18,7 @@ const validateRoutes = (
 ) => {
   const {userId} = useAuthStore()
 
-  document.title = `${to.meta.title as string } ${to.params.id ? ` - ${to.params.id}` : ''}`
+  document.title = `${to.meta.title as string }`
 
   if(!userId.length && to.path !== '/auth') {
     next({name: 'auth'})
@@ -89,6 +89,17 @@ const router = createRouter({
         title: 'Auth'
       },
       component: () => import('@/pages/AuthView.vue')
+    },
+
+
+    {
+      path: '/profile/user/:id',
+      name: 'profile',
+      meta: {
+        requiresAuth: true,
+        title: 'Profile'
+      },
+      component: () => import('@/pages/ProfileView.vue')
     },
 
 
