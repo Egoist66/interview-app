@@ -19,7 +19,7 @@ const {user} = storeToRefs(useAuthStore())
     </div>
     <div v-else id="layout">
         <div class="container">
-            <div class="flex justify-content-end mb-3 gap-3">
+            <div class="flex justify-content-end align-items-center mb-3 gap-3">
                 <Button class="bg-transparent border border-gray-300" @click="toggleTheme">
                     <i class="pi text-700" :class="theme === 'aura-light-blue' ? 'pi-moon' : 'pi-sun'"></i>
                 </Button>
