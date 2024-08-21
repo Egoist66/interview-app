@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useAuth } from "@/composables/useAuth";
+import { useGoogleAuth } from "@/composables/useGoogleAuth";
 
 const {
   subTitleText,
@@ -9,10 +10,11 @@ const {
   isLogin,
   isLoading,
   password,
-  authViaGoogle,
   submitForm,
   toggleAuth,
 } = useAuth();
+
+const {authViaGoogle} = useGoogleAuth()
 </script>
 
 <template>

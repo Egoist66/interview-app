@@ -14,7 +14,6 @@ import { useRouter } from "vue-router";
 import { useToast } from "primevue/usetoast";
 
 export const useAuth = () => {
-  const provider = new GoogleAuthProvider();
  
   const {setUser} = useAuthStore()
   
@@ -101,22 +100,7 @@ export const useAuth = () => {
     
   }
 
-  const checkIsAuthViaGoogle = async () => {
-    const result = await getRedirectResult(getAuth())
-    if (result) {
-      
-      const user = result.user
-      setUser(user)
-    }
-  }
-
-  const authViaGoogle = async () => {
-    const auth = getAuth()
-    await signInWithRedirect(auth, provider)
-
   
-    
-  }
 
   return {
     isLogin,
@@ -126,8 +110,6 @@ export const useAuth = () => {
     isLoading,
     submitForm,
     checkIsAuth,
-    authViaGoogle,
-    checkIsAuthViaGoogle,
     email,
     Error,
     password,
