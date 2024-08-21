@@ -7,15 +7,15 @@ export const useAuthStore = defineStore('auth', () => {
 
 
   const user = ref<User>()
-  const userId = ref<string>('dd')
+  const userId = ref<string>('')
 
 
-  const clearUser = (callback: () => void) => {
-    signOut(getAuth())
+  const clearUser = async (callback: () => Promise<void>) => {
+    await signOut(getAuth())
     userId.value = ''
     user.value = {} as User
 
-    callback()
+    await callback()
 
   }
 

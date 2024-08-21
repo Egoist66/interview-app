@@ -1,42 +1,32 @@
 <script setup lang="ts">
-import { useAuth } from '@/composables/useAuth';
 import { useTheme } from '@/composables/useTheme';
 import { useAuthStore } from '@/stores/auth';
-import {onBeforeMount, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
+import { storeToRefs } from 'pinia';
 
 
-const auth = useAuthStore()
-const {checkIsAuth} = useAuth()
-const router = useRouter()
+defineProps<{isAppLoading: boolean}>()
+
 const {theme, toggleTheme} = useTheme()
+const {user} = storeToRefs(useAuthStore())
 
-
-onBeforeMount(() => {
-   checkIsAuth()
-})
-
-
-onMounted(async () => {
-
-
-    if(auth.userId.length) {
-        router.replace('/')
-
-    }
-    
-})
 
 </script>
 
 <template>
-    <div id="layout">
 
+    <div v-if="isAppLoading" class="card h-screen align-items-center flex justify-content-center">
+        <ProgressSpinner />
+    </div>
+    <div v-else id="layout">
         <div class="container">
-            <div class="flex justify-content-end mb-3">
+            <div class="flex justify-content-end mb-3 gap-3">
                 <Button class="bg-transparent border border-gray-300" @click="toggleTheme">
                     <i class="pi text-700" :class="theme === 'aura-light-blue' ? 'pi-moon' : 'pi-sun'"></i>
                 </Button>
+
+                
+                <Avatar v-tooltip.bottom="'Пользователь:' + ' ' + user?.email + '\n\n' + 'ID: '  + user?.uid + ' '" v-if="user?.uid" icon="pi pi-user" class="mr-2" size="normal" shape="circle" />
+
             </div>
     
             <header>

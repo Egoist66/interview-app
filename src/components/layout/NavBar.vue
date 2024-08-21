@@ -10,6 +10,10 @@ const auth = useAuthStore()
 const {routeLinks} = useRouterLinks()
 const router = useRouter()
 
+const redirect = async() => {
+    await router.replace('/auth')
+}
+
 </script>
 
 
@@ -26,7 +30,7 @@ const router = useRouter()
         </template>
         <template #end>
             <template v-if="auth.userId.length">
-                <div @click="auth.clearUser(() => router.replace('/auth'))" class="flex align-items-center gap-2">
+                <div @click="auth.clearUser(redirect)" class="flex align-items-center gap-2">
                     <div class="menu-exit flex align-items-center">
                         <span class="pi pi-sign-out p-menuitem-icon"/>
                         <span class="ml-2">Выйти</span>

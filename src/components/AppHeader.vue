@@ -2,10 +2,12 @@
 
 import NavBar from './layout/NavBar.vue';
 
+
 </script>
 
 <template>
     <nav>
+
 
         <NavBar />
 

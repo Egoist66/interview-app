@@ -1,13 +1,12 @@
-import { computed, ref, toRef } from "vue";
+import { computed, ref } from "vue";
 import {
   getAuth,
   GoogleAuthProvider,
   signInWithRedirect,
-  onAuthStateChanged ,
+  onAuthStateChanged,
   getRedirectResult,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  type User,
 } from "firebase/auth";
 import { delay } from "@/utils/delay";
 import { useAuthStore } from "@/stores/auth";
@@ -18,7 +17,8 @@ export const useAuth = () => {
   const provider = new GoogleAuthProvider();
  
   const {setUser} = useAuthStore()
-  const {add} = useToast()
+  
+  const toast = useToast()
   const router = useRouter()
 
   const isLogin = ref<boolean>(true);
@@ -65,11 +65,11 @@ export const useAuth = () => {
 
         setUser(user.user)
         clearFields();
-        router.replace({name: 'home'})
+        await router.replace({name: 'home'})
        
       } else {
         await createUserWithEmailAndPassword(
-          getAuth(),
+            getAuth(),
           email.value,
           password.value
         );
@@ -80,9 +80,9 @@ export const useAuth = () => {
 
       }
     } catch (error: any) {
-      console.log(error);
+      
       Error.value = error.message === 'Firebase: Password should be at least 6 characters (auth/weak-password).' ? 'Пароль должен содержать не менее 6 символов' : 'Пользователь с таким email уже существует или неверные данные для входа';
-      add({severity: 'error', summary: 'Error', detail: Error.value, life: 3000})
+      toast.add({severity: 'error', summary: 'Error', detail: Error.value, life: 3000})
 
     } finally {
       await delay(500);
@@ -91,15 +91,23 @@ export const useAuth = () => {
   };
 
   const checkIsAuth = async () => {
-    const auth = getAuth();
 
-    onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(getAuth(), (user) => {
       if (user) {
         setUser(user);
       }
     });
 
     
+  }
+
+  const checkIsAuthViaGoogle = async () => {
+    const result = await getRedirectResult(getAuth())
+    if (result) {
+      
+      const user = result.user
+      setUser(user)
+    }
   }
 
   const authViaGoogle = async () => {
@@ -119,6 +127,7 @@ export const useAuth = () => {
     submitForm,
     checkIsAuth,
     authViaGoogle,
+    checkIsAuthViaGoogle,
     email,
     Error,
     password,

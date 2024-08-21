@@ -42,10 +42,9 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-   
       meta: {
         requiresAuth: true,
-        title: 'Home'
+        title: 'Interview organizer'
       },
       component: () => import('@/pages/HomeView.vue')
     },
@@ -55,7 +54,7 @@ const router = createRouter({
       name: 'interview-list',
       meta: {
         requiresAuth: true,
-        title: 'Interview List'
+        title: 'Interview list'
       },
       component: () => import('@/pages/InterviewListView.vue')
     },
@@ -77,7 +76,7 @@ const router = createRouter({
       name: 'statistics',
       meta: {
         requiresAuth: true,
-        title: 'Statistics'
+        title: 'Interview statistics'
       },
       component: () => import('@/pages/StatisticsView.vue')
     },
