@@ -44,7 +44,7 @@ const router = createRouter({
       name: 'home',
       meta: {
         requiresAuth: true,
-        title: 'Interview organizer'
+        title: 'Органайзер интерьвью'
       },
       component: () => import('@/pages/HomeView.vue')
     },
@@ -54,7 +54,7 @@ const router = createRouter({
       name: 'interview-list',
       meta: {
         requiresAuth: true,
-        title: 'Interview list'
+        title: 'Список интервью'
       },
       component: () => import('@/pages/InterviewListView.vue')
     },
@@ -64,7 +64,7 @@ const router = createRouter({
       name: 'interview',
       meta: {
         requiresAuth: true,
-        title: 'Interview'
+        title: 'Интервью'
       },
       component: () => import('@/pages/InterviewSingleView.vue')
     },
@@ -76,7 +76,7 @@ const router = createRouter({
       name: 'statistics',
       meta: {
         requiresAuth: true,
-        title: 'Interview statistics'
+        title: 'Статистика по интерьвью'
       },
       component: () => import('@/pages/StatisticsView.vue')
     },
@@ -86,7 +86,7 @@ const router = createRouter({
       name: 'auth',
       meta: {
         requiresAuth: true,
-        title: 'Auth'
+        title: 'Логин | Регистрация'
       },
       component: () => import('@/pages/AuthView.vue')
     },
@@ -97,7 +97,7 @@ const router = createRouter({
       name: 'profile',
       meta: {
         requiresAuth: true,
-        title: 'Profile'
+        title: 'Профиль'
       },
       component: () => import('@/pages/ProfileView.vue')
     },

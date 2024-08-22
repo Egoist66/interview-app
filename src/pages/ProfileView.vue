@@ -16,10 +16,10 @@ const {user}  = storeToRefs(useAuthStore())
             <div class="text-center mb-4">
                 <img :src="user?.photoURL ?? 'https://www.primefaces.org/wp-content/uploads/2020/05/placeholder.png'" alt="Vue" class="w-32 mb-3 shadow-2 mx-auto">
                 <h5 class="font-bold mb-0">{{ user?.displayName }}</h5>
-                <p class="text-600 text-muted mb-0">{{ user?.email }}</p>
+                <p class="text-600 text-muted mb-0"><a class="text-blue-600" :href="`mailto:${user?.email}`">{{ user?.email }}</a></p>
             </div>
             <div class="text-center">
-                <Button icon="pi pi-arrow-left"  label="Back" class="p-3 w-full" @click="router.back()" />
+                <Button icon="pi pi-arrow-left"  label="Назад" class="p-3 w-full" @click="router.back()" />
             </div>
         </div>
     </div>

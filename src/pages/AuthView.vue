@@ -14,11 +14,11 @@ const {
   toggleAuth,
 } = useAuth();
 
-const {authViaGoogle} = useGoogleAuth()
+const { authViaGoogle } = useGoogleAuth();
 </script>
 
 <template>
-  <Toast  position="bottom-right" />
+  <Toast position="bottom-right" />
   <div class="flex justify-content-center">
     <div class="surface-card p-4 shadow-2 border-round w-full lg:w-6">
       <div class="text-center mb-3">
@@ -58,7 +58,10 @@ const {authViaGoogle} = useGoogleAuth()
           <label for="password1">Пароль</label>
         </FloatLabel>
 
-        <div class="w-full" v-tooltip.bottom="!email || !password ? 'Заполните все поля!' : ''" >
+        <div
+          class="w-full"
+          v-tooltip.bottom="!email || !password ? 'Заполните все поля!' : ''"
+        >
           <Button
             :disabled="isLoading || !email || !password"
             :label="isLoading ? 'Обработка...' : submitButtonText"
@@ -67,17 +70,14 @@ const {authViaGoogle} = useGoogleAuth()
             :loading="isLoading"
             class="w-full"
           ></Button>
-
-          
         </div>
 
         <a
-            class="font-medium no-underline block mt-3 text-blue-500 cursor-pointer"
-            @click="authViaGoogle()"
+          class="font-medium no-underline hover:text-blue-700 block mt-3 text-blue-500 cursor-pointer"
+          @click="authViaGoogle()"
         >
-            Авторизация через Google
-            </a>
-        
+          Авторизация через Google
+        </a>
       </form>
     </div>
   </div>
