@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useInterviewCreate } from '@/composables/useInterviewCreate';
+import { computed } from 'vue';
 
 
  const {
@@ -10,8 +11,10 @@ import { useInterviewCreate } from '@/composables/useInterviewCreate';
   contactWhatsApp,
   contactPhone,
   isCreating,
+  disabledCreateButton,
   createInterview
  } = useInterviewCreate()
+
 
 </script>
 
@@ -43,7 +46,7 @@ import { useInterviewCreate } from '@/composables/useInterviewCreate';
         <Button
           @click="createInterview()"
           label="Создать собеседование"
-          :disabled="false"
+          :disabled="disabledCreateButton"
           :loading="isCreating"
         ></Button>
       </template>

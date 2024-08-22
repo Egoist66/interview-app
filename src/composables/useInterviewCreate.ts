@@ -1,20 +1,19 @@
-import { ref } from "vue"
+import { computed, ref } from "vue"
 import { useRefs } from "./common/useRefs"
 
 export const useInterviewCreate = () => {
 
     // fields names
-    const [
-        company, 
-        vacancyLink, 
-        hrName,
-        contactTelegram,
-        contactWhatsApp,
-        contactPhone
-    ] = useRefs<string[]>(['', '', '', '','',''])
+    const company = ref<string>('')
+    const vacancyLink = ref<string>('')
+    const hrName = ref<string>('')
+    const contactTelegram = ref<string>('')
+    const contactWhatsApp = ref<string>('')
+    const contactPhone = ref<string>('')
 
     // flags
     const isCreating = ref<boolean>(false)
+    const disabledCreateButton = computed<boolean>(() => !(company.value && vacancyLink.value && hrName.value))
 
 
 
@@ -29,6 +28,7 @@ export const useInterviewCreate = () => {
         contactTelegram,
         contactWhatsApp,
         contactPhone,
+        disabledCreateButton,
         isCreating,
         createInterview
     }
