@@ -2,14 +2,16 @@ import type { IInterView } from "@/entities/interview.interface"
 import { useAuthStore } from "@/stores/auth"
 import { DateUtils } from "@/utils/date"
 import { delay } from "@/utils/delay"
-import { getAuth } from "firebase/auth"
 import {getFirestore, doc, setDoc} from 'firebase/firestore'
 import { storeToRefs } from "pinia"
 import { computed, ref } from "vue"
+import { useToast } from "primevue/usetoast";
+
 
 export const useInterviewCreate = () => {
 
     const {userId} = storeToRefs(useAuthStore())
+    const toast = useToast()
 
     // fields names
     const company = ref<string>('')
@@ -36,7 +38,7 @@ export const useInterviewCreate = () => {
             createdAt: DateUtils.getDateTime(new Date())
         }
 
-        const userID = getAuth().currentUser?.uid
+        const userID = userId.value
         const db = getFirestore()
 
         if(userID){
@@ -47,12 +49,14 @@ export const useInterviewCreate = () => {
                     doc(db, `users/${userID}/interviews`, payload.id), 
                     payload
                 )
+                await delay(1000)
+                toast.add({severity: 'success', summary: 'Успешно', detail: 'Интервью создано💫', life: 3000});
             }
             catch (e) {
                 console.error(e)
+                toast.add({severity: 'error', summary: 'Ошибка', detail: 'Не удалось создать интервью', life: 3000});
             }
             finally {
-                await delay(1000)
                 isCreating.value = false
                 company.value = ''
                 contactPhone.value = ''

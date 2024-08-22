@@ -16,6 +16,8 @@ const {
 
 <template>
   <div class="content-interview">
+    <Toast position="bottom-right" />
+
     <Card>
       <template #title>Новое собеседование</template>
       <template #content>

@@ -81,7 +81,7 @@ export const useAuth = () => {
     } catch (error: any) {
       
       Error.value = error.message === 'Firebase: Password should be at least 6 characters (auth/weak-password).' ? 'Пароль должен содержать не менее 6 символов' : 'Пользователь с таким email уже существует или неверные данные для входа';
-      toast.add({severity: 'error', summary: 'Error', detail: Error.value, life: 3000})
+      toast.add({severity: 'error', summary: 'Ошибка', detail: Error.value, life: 3000})
 
     } finally {
       await delay(500);
