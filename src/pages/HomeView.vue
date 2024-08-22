@@ -43,7 +43,7 @@ import { useInterviewCreate } from '@/composables/useInterviewCreate';
         <Button
           @click="createInterview()"
           label="Создать собеседование"
-          :disabled="disabledSaveButton"
+          :disabled="false"
           :loading="isCreating"
         ></Button>
       </template>
