@@ -6,11 +6,13 @@ import {getFirestore, doc, setDoc} from 'firebase/firestore'
 import { storeToRefs } from "pinia"
 import { computed, ref } from "vue"
 import { useToast } from "primevue/usetoast";
+import { useRouter } from "vue-router"
 
 
 export const useInterviewCreate = () => {
 
     const {userId} = storeToRefs(useAuthStore())
+    const router = useRouter()
     const toast = useToast()
 
     // fields names
@@ -51,6 +53,8 @@ export const useInterviewCreate = () => {
                 )
                 await delay(1000)
                 toast.add({severity: 'success', summary: 'Успешно', detail: 'Интервью создано💫', life: 3000});
+                await delay(1200)
+                await router.push({name: 'interview-list'})
             }
             catch (e) {
                 console.error(e)
