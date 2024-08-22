@@ -1,21 +1,17 @@
 <script setup lang="ts">
-import { useInterviewCreate } from '@/composables/useInterviewCreate';
-import { computed } from 'vue';
+import { useInterviewCreate } from "@/composables/useInterviewCreate";
+import { computed } from "vue";
 
-
- const {
+const {
   company,
   vacancyLink,
   hrName,
   contactTelegram,
-  contactWhatsApp,
   contactPhone,
   isCreating,
   disabledCreateButton,
-  createInterview
- } = useInterviewCreate()
-
-
+  createInterview,
+} = useInterviewCreate();
 </script>
 
 <template>
@@ -23,42 +19,41 @@ import { computed } from 'vue';
     <Card>
       <template #title>Новое собеседование</template>
       <template #content>
-        
-        <InputText class="input mb-3" placeholder="Компания" v-model="company" />
-        <InputText
-          v-model="vacancyLink"
-          type="url"
-          class="input mb-3"
-          placeholder="Описание вакансии (ссылка)"
-        />
-        <InputText v-model="hrName" class="input mb-3" placeholder="Контакт (имя)" />
-        <InputText
-          v-model="contactTelegram"
-          class="input mb-3"
-          placeholder="Telegram ник HR"
-        />
-        <InputText
-          v-model="contactWhatsApp"
-          class="input mb-3"
-          placeholder="WhatsApp телефон HR"
-        />
-        <InputText v-model="contactPhone" class="input mb-3" placeholder="Телефон HR" />
-        <Button
-          @click="createInterview()"
-          label="Создать собеседование"
-          :disabled="disabledCreateButton"
-          :loading="isCreating"
-        ></Button>
+        <form @submit.prevent="createInterview()">
+          <InputText class="input mb-3" placeholder="Компания" v-model.trim="company" />
+          <InputText
+            v-model.trim="vacancyLink"
+            type="url"
+            class="input mb-3"
+            placeholder="Описание вакансии (ссылка)"
+          />
+          <InputText v-model="hrName" class="input mb-3" placeholder="Контакт (имя)" />
+          <InputText
+            v-model.trim="contactTelegram"
+            class="input mb-3"
+            placeholder="Telegram ник HR"
+          />
+         
+          <InputText
+            v-model.trim="contactPhone"
+            class="input mb-3"
+            placeholder="Телефон HR"
+          />
+          <Button
+            type="submit"
+            label="Создать собеседование"
+            :disabled="disabledCreateButton"
+            :loading="isCreating"
+          ></Button>
+        </form>
       </template>
     </Card>
   </div>
 </template>
 
 <style scoped>
-
-  .content-interview {
-    max-width: 600px;
-    margin: 0 auto;
-  }
-
+.content-interview {
+  max-width: 600px;
+  margin: 0 auto;
+}
 </style>
