@@ -2,27 +2,27 @@
 import { useInterviews } from "@/composables/useInterviews";
 import { useInterviewsStore } from "@/stores/interviews";
 import { storeToRefs } from "pinia";
-import { FilterMatchMode } from 'primevue/api';
+import { FilterMatchMode } from "primevue/api";
+import Column from "primevue/column";
 import { ref } from "vue";
-
 
 const { isLoading, refetchInterviews, isRefetching } = useInterviews();
 const { interviews } = storeToRefs(useInterviewsStore());
 
 const filters = ref({
-    'company': {value: null, matchMode: FilterMatchMode.STARTS_WITH},
-    'hrName': {value: null, matchMode: FilterMatchMode.STARTS_WITH},
-    'vacancyLink': {value: null, matchMode: FilterMatchMode.STARTS_WITH},
-    'contactPhone': {value: null, matchMode: FilterMatchMode.STARTS_WITH},
-    'contactTelegram': {value: null, matchMode: FilterMatchMode.STARTS_WITH}
-})
+  company: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+  hrName: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+  vacancyLink: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+  contactPhone: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+  contactTelegram: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+});
 
 const columns = ref([
-    {field: 'company', header: 'Компания'},
-    {field: 'hrName', header: 'Имя HR'},
-    {field: 'vacancyLink', header: 'Вакансия'},
-    {field: 'contactPhone', header: 'Номер телефона'},
-    {field: 'contactTelegram', header: 'Telegram'},
+  { field: "company", header: "Компания" },
+  { field: "vacancyLink", header: "Вакансия" },
+  { field: "hrName", header: "Имя HR" },
+  { field: "contactPhone", header: "Номер телефона" },
+  { field: "contactTelegram", header: "Telegram" },
 ]);
 </script>
 
@@ -39,23 +39,51 @@ const columns = ref([
     />
 
     <DataTable
-       showGridlines
-       stripedRows
-       v-model:filters="filters"
-       filter-display="row"
-       paginator :rows="5"
-       :rowsPerPageOptions="[5, 10, 20, 50]" 
+      showGridlines
+      stripedRows
+      row-hover
+      v-model:filters="filters"
+      filter-display="row"
+      paginator
+      :rows="5"
+      :rowsPerPageOptions="[5, 10, 20, 50]"
       :column-resize-mode="'fit'"
       removableSort
       :always-show-paginator="true"
       :loading="isLoading || isRefetching"
       :value="interviews"
     >
-        <Column v-for="col of columns" :key="col.field" :field="col.field" :header="col.header"  sortable filter>
-            <template #filter="{ filterModel, filterCallback }">
-                <InputText v-model="filterModel.value" v-tooltip.top.focus="'После поиска нажмите Enter'" type="text" @keydown.enter="filterCallback()" class="p-column-filter" />
-            </template>
-        </Column>
+       
+       
+      <Column
+        v-for="col of columns"
+        :key="col.field"
+        :field="col.field"
+        :header="col.header"
+        sortable
+        filter
+      >
+      <template #body="{data}" v-if="col.field === 'contactPhone'">
+        <a class="text-blue-700" :href="`tel:${data[col.field]}`">{{ data[col.field] }}</a>
+      </template>
+
+      <template v-if="col.field === 'vacancyLink'" #body="{ data }">
+        <a class="text-blue-700" :href="data.vacancyLink" target="_blank">{{
+          data.vacancyLink
+        }}</a>
+      </template>
+
+
+        <template #filter="{ filterModel, filterCallback }">
+          <InputText
+            v-model="filterModel.value"
+            v-tooltip.top.focus="'После поиска нажмите Enter'"
+            type="text"
+            @keydown.enter="filterCallback()"
+            class="p-column-filter"
+          />
+        </template>
+      </Column>
     </DataTable>
   </div>
 </template>
