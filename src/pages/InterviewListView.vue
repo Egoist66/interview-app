@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { useInterviews } from "@/composables/useInterviews";
+import { useInterviewsStore } from "@/stores/interviews";
+import { storeToRefs } from "pinia";
 
 const { isLoading, refetchInterviews, isRefetching } = useInterviews();
+const {interviews} = storeToRefs(useInterviewsStore())
 </script>
 
 <template>
@@ -10,9 +13,12 @@ const { isLoading, refetchInterviews, isRefetching } = useInterviews();
       :disabled="isRefetching || isLoading"
       :loading="isRefetching"
       @click="refetchInterviews()"
-      label="Обновить"
+      :label="isRefetching ? 'Обновление...' : 'Обновить'"
       :icon="'pi pi-refresh'"
     />
+    <div>
+        {{ interviews.length && interviews }}
+    </div>
   </div>
 </template>
 

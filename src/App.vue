@@ -14,7 +14,7 @@ const {isAppLoading} = useApp()
 
 onMounted(async () => {
     checkIsAuth()
-    await delay(1500)
+    await delay(1000)
     isAppLoading.value = false
 
 })

@@ -1,16 +1,17 @@
 import { useAuthStore } from "@/stores/auth"
-import { getFirestore, collection, query, orderBy, getDocs, deleteDoc, doc } from "firebase/firestore"
+import { getFirestore, collection, query, orderBy, getDocs } from "firebase/firestore";
 import { storeToRefs } from "pinia"
 import { useInterviewsStore } from '@/stores/interviews';
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { delay } from "@/utils/delay";
+import type { IInterView } from "@/entities/interview.interface";
 
 
 export const useInterviews = () => {
 
     // main data
 
-    const {setInterviews} = useInterviewsStore()
+    const interviewStore = useInterviewsStore()
     const {userId} = storeToRefs(useAuthStore())
     const db = getFirestore()
 
@@ -27,8 +28,10 @@ export const useInterviews = () => {
 
             const getData =  query(collection(db, `users/${userId.value}/interviews`), orderBy('createdAt', 'desc'))
             const data = await getDocs(getData)
+            const interviews = data.docs.map(doc => doc.data() as IInterView)
+
+            return interviews            
             
-            console.log(data.docs);
             
             
         }
@@ -44,14 +47,25 @@ export const useInterviews = () => {
     const refetchInterviews = async () => {
         isRefetching.value = true
         await delay(1000)
-        await getInterviews()
+
+        const interviews = await getInterviews()
+        if(interviews?.length){
+            interviewStore.setInterviews(interviews)
+        }
+        
         isRefetching.value = false
     }
 
+    
     onMounted(async () => {
-        await getInterviews()
+      const interviews = await getInterviews()
+      if(interviews?.length){
+        interviewStore.setInterviews(interviews)
+      }
     })
 
+    
+   
     return {
         getInterviews,
         refetchInterviews,
