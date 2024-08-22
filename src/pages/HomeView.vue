@@ -41,12 +41,15 @@ const {
             class="input mb-3"
             placeholder="Телефон HR"
           />
-          <Button
-            type="submit"
-            label="Создать собеседование"
-            :disabled="disabledCreateButton"
-            :loading="isCreating"
-          ></Button>
+          <div v-tooltip.bottom="!company.length || !vacancyLink.length || !hrName.length ? 'Обязательные поля - компания, вакансия, контакт' : ''"
+          >
+            <Button
+              type="submit"
+              label="Создать собеседование"
+              :disabled="disabledCreateButton"
+              :loading="isCreating"
+          > </Button>
+          </div>
         </form>
       </template>
     </Card>
