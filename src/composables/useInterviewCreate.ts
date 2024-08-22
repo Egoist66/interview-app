@@ -1,5 +1,4 @@
 import { computed, ref } from "vue"
-import { useRefs } from "./common/useRefs"
 
 export const useInterviewCreate = () => {
 
