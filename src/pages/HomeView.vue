@@ -54,4 +54,11 @@ import { computed } from 'vue';
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+
+  .content-interview {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+</style>
