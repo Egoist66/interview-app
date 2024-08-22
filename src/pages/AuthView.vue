@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { useAuth } from "@/composables/useAuth";
 import { useGoogleAuth } from "@/composables/useGoogleAuth";
+import { onMounted } from "vue";
+import { useRouter } from "vue-router";
 
 const {
   subTitleText,
@@ -15,6 +17,9 @@ const {
 } = useAuth();
 
 const { authViaGoogle } = useGoogleAuth();
+
+
+
 </script>
 
 <template>

@@ -20,6 +20,7 @@ export const useTheme = (): { theme: Ref<'aura-light-blue' | 'aura-dark-blue'>; 
     link.rel = 'stylesheet';
     link.href = computedThemeStyle.value;
     link.id = theme.value
+    document.documentElement.setAttribute('data-theme', theme.value)
 
     
 
@@ -33,6 +34,7 @@ export const useTheme = (): { theme: Ref<'aura-light-blue' | 'aura-dark-blue'>; 
     })
 
     watch(() => theme.value, () => {
+        document.documentElement.setAttribute('data-theme', theme.value)
         link.href = computedThemeStyle.value;
         link.id = theme.value
         localStorage.setItem('theme', theme.value)

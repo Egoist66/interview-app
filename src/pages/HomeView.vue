@@ -21,7 +21,7 @@ const {
     <Card>
       <template #title>Новое собеседование</template>
       <template #content>
-        <form @submit.prevent="createInterview()">
+        <form class="flex flex-column" @submit.prevent="createInterview()">
           <InputText class="input mb-3" placeholder="Компания" v-model.trim="company" />
           <InputText
             v-model.trim="vacancyLink"

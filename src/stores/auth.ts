@@ -14,6 +14,7 @@ export const useAuthStore = defineStore('auth', () => {
     await signOut(getAuth())
     userId.value = ''
     user.value = {} as User
+    if(localStorage.getItem('user_id')) localStorage.removeItem('user_id')
 
     await callback()
 

@@ -12,6 +12,7 @@ import { delay } from "@/utils/delay";
 import { useAuthStore } from "@/stores/auth";
 import { useRouter } from "vue-router";
 import { useToast } from "primevue/usetoast";
+import { useStorage } from "@vueuse/core";
 
 export const useAuth = () => {
  
@@ -47,7 +48,8 @@ export const useAuth = () => {
   };
 
   const submitForm = async () => {
-    handleAuth();
+    await handleAuth();
+    router.replace({name: 'home'})
   };
 
   const handleAuth = async () => {
@@ -73,8 +75,9 @@ export const useAuth = () => {
           password.value
         );
 
-        await delay(1000);
         clearFields();
+        await router.replace({name: 'home'})
+
         
 
       }
@@ -94,6 +97,7 @@ export const useAuth = () => {
     onAuthStateChanged(getAuth(), (user) => {
       if (user) {
         setUser(user);
+        localStorage.setItem('user_id', user.uid)
       }
     });
 

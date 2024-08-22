@@ -1,5 +1,3 @@
-import { useAuthStore } from '@/stores/auth'
-import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { createRouter, createWebHistory, type NavigationGuardNext, type RouteLocationNormalizedGeneric, type RouteLocationNormalized } from 'vue-router'
 
 /**
@@ -16,22 +14,24 @@ const validateRoutes = (
   from: RouteLocationNormalized, 
   next: NavigationGuardNext
 ) => {
-  const {userId} = useAuthStore()
 
   document.title = `${to.meta.title as string }`
 
-  if(!userId.length && to.path !== '/auth') {
+  if(localStorage.getItem('user_id') && to.path === '/auth') {
+    next({name: 'home'})
+   
+  }
+
+  if(!localStorage.getItem('user_id') && to.path !== '/auth') {
     next({name: 'auth'})
   }
-  else {
-    next()
-  }
+
+  next()
+  
+
 
 
 }
-
-
-
 
 
 
@@ -44,7 +44,7 @@ const router = createRouter({
       name: 'home',
       meta: {
         requiresAuth: true,
-        title: 'Органайзер интерьвью'
+        title: 'Органайзер интервью'
       },
       component: () => import('@/pages/HomeView.vue')
     },

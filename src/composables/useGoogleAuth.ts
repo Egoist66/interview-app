@@ -12,19 +12,21 @@ export const useGoogleAuth = () => {
   const authViaGoogle = async () => {
     const auth = getAuth();
     signInWithPopup(auth, provider)
-      .then(async (result) => {
+      .then((result) => {
         const credential = GoogleAuthProvider.credentialFromResult(result);
         // const token = credential?.accessToken;
         const user = result.user;
+        return user
+        
+      })
+      .then(async user => {
         if(user){
           setUser(user)
-          window.location.reload()
-          await delay(500)
-          await router.replace('/')
+          localStorage.setItem('user_id', user.uid)
+          await router.replace({name: 'home'})
+          
         }
-
-        
-    })
+      })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
