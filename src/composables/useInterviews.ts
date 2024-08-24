@@ -6,11 +6,14 @@ import { onMounted, ref } from "vue";
 import { delay } from "@/utils/delay";
 import type { IInterView } from "@/entities/interview.interface";
 import { useToast } from "primevue/usetoast";
+import { useConfirm } from "primevue/useconfirm";
+
 
 
 export const useInterviews = () => {
 
     const toast = useToast()
+    const confirm = useConfirm()
 
     // main data
 
@@ -63,20 +66,32 @@ export const useInterviews = () => {
     const removeInterview = async (id: string | number) => {
 
         const db = getFirestore()
+        confirm.require({
+            message: 'Вы уверены, что хотите удалить интервью?',
+            header: 'Подтвердите действие',
+            icon: 'pi pi-info-circle',
+            rejectLabel: 'Отмена',
+            rejectClass: 'p-button-danger',
+            acceptLabel: 'Удалить',
+            accept: async () => {
+                try {
+                    isDeleting.value = true
+                    await deleteDoc(doc(db, `users/${userId.value}/interviews/${id}`))
+                    await refetchInterviews()
+                    toast.add({severity: 'success', summary: 'Успешно', detail: 'Интервью удалено', life: 3000})
+                }
+                catch (error) {
+                    console.log(error)
+                    toast.add({severity: 'error', summary: 'Ошибка', detail: 'Не удалось удалить интервью', life: 3000})
+                }
+                finally {
+                    isDeleting.value = false
 
-        try {
-           
-            await delay(1000)
+                }
+            }
+        })
 
-            await deleteDoc(doc(db, `users/${userId.value}/interviews/${id}`))
-            await refetchInterviews()
-            toast.add({severity: 'success', summary: 'Успешно', detail: 'Интервью удалено', life: 3000})
-
-        }
-        catch (error) {
-            console.log(error)
-            toast.add({severity: 'error', summary: 'Ошибка', detail: 'Не удалось удалить интервью', life: 3000})
-        }
+     
        
     }
 

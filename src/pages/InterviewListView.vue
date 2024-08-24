@@ -32,6 +32,7 @@ const columns = ref([
 
 <template>
   <Toast position="bottom-right" />
+  <ConfirmDialog/>
   <h1 class="text-2xl mb-5 mt-0">Текущие собеседования</h1>
   <div>
     <Button
