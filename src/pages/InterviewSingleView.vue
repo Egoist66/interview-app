@@ -1,13 +1,14 @@
 
 <script setup lang="ts">
-import router from '@/router';
+import { useRoute } from 'vue-router';
 
+const route = useRoute()
 
 </script>
 
 <template>
     <div>
-        Interview  {{ router.currentRoute.value.params.id }}
+        Interview  {{ route.params.id}}
 
 
     </div>
