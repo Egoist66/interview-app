@@ -45,7 +45,7 @@ const {
           >
             <Button
               type="submit"
-              label="Создать собеседование"
+              :label="isCreating ? 'Создание...' : 'Создать интервью'"
               :disabled="disabledCreateButton"
               :loading="isCreating"
           > </Button>

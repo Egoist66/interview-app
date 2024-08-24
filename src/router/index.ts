@@ -60,7 +60,7 @@ const router = createRouter({
     },
 
     {
-      path: '/interview/:id',
+      path: '/interview/edit/:id',
       name: 'interview',
       meta: {
         requiresAuth: true,

@@ -12,5 +12,6 @@ export const useInterviewsStore = defineStore('interviews', () => {
     }
 
 
+
     return {interviews, setInterviews}
 })

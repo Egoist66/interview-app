@@ -44,7 +44,6 @@ export const useInterviewCreate = () => {
         const db = getFirestore()
 
         if(userID){
-            console.log(userID);
             
             try {
                 await setDoc(
@@ -61,6 +60,7 @@ export const useInterviewCreate = () => {
                 toast.add({severity: 'error', summary: 'Ошибка', detail: 'Не удалось создать интервью', life: 3000});
             }
             finally {
+                await delay(1200)
                 isCreating.value = false
                 company.value = ''
                 contactPhone.value = ''

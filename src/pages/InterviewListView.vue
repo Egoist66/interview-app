@@ -5,9 +5,11 @@ import { storeToRefs } from "pinia";
 import { FilterMatchMode } from "primevue/api";
 import Column from "primevue/column";
 import { ref } from "vue";
+import { useRouter } from "vue-router";
 
-const { isLoading, refetchInterviews, isRefetching } = useInterviews();
+const { isLoading, refetchInterviews, isRefetching, removeInterview } = useInterviews();
 const { interviews } = storeToRefs(useInterviewsStore());
+const router = useRouter()
 
 const filters = ref({
   company: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
@@ -15,6 +17,7 @@ const filters = ref({
   vacancyLink: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
   contactPhone: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
   contactTelegram: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+  actions: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
 });
 
 const columns = ref([
@@ -23,18 +26,20 @@ const columns = ref([
   { field: "hrName", header: "Имя HR" },
   { field: "contactPhone", header: "Номер телефона" },
   { field: "contactTelegram", header: "Telegram" },
+  { field: "actions", header: "Действия" },
 ]);
 </script>
 
 <template>
+  <Toast position="bottom-right" />
   <h1 class="text-2xl mb-5 mt-0">Текущие собеседования</h1>
   <div>
     <Button
+      title="Обновить список"
       class="mb-5"
       :disabled="isRefetching || isLoading"
       :loading="isRefetching"
       @click="refetchInterviews()"
-      :label="isRefetching ? 'Обновление...' : 'Обновить'"
       :icon="'pi pi-refresh'"
     />
 
@@ -42,6 +47,7 @@ const columns = ref([
       showGridlines
       stripedRows
       row-hover
+      :resizable-columns="true"
       v-model:filters="filters"
       filter-display="row"
       paginator
@@ -53,32 +59,71 @@ const columns = ref([
       :loading="isLoading || isRefetching"
       :value="interviews"
     >
-       
-       
       <Column
         v-for="col of columns"
         :key="col.field"
         :field="col.field"
         :header="col.header"
-        sortable
+        :sortable="col.field !== 'actions'"
         filter
       >
-      <template #body="{data}" v-if="col.field === 'contactPhone'">
-        <a class="text-blue-700" :href="`tel:${data[col.field]}`">{{ data[col.field] }}</a>
-      </template>
+        <template #body="{ data }" v-if="col.field === 'contactPhone'">
+          <a class="text-blue-700 flex gap-2" :href="`tel:${data[col.field]}`">
+            <span class="pi pi-phone text-blue-500" />
+            <span>{{ data[col.field] }}</span>
+          </a>
+        </template>
 
-      <template v-if="col.field === 'vacancyLink'" #body="{ data }">
-        <a class="text-blue-700" :href="data.vacancyLink" target="_blank">{{
-          data.vacancyLink
-        }}</a>
-      </template>
+        <template v-if="col.field === 'vacancyLink'" #body="{ data }">
+          <a class="text-blue-700 flex gap-2" :href="data[col.field]" target="_blank">
+            <span class="pi pi-link text-blue-500" />
+            <span>{{ data[col.field] }}</span>
+          </a>
+        </template>
 
+        <template v-if="col.field === 'contactTelegram'" #body="{ data }">
+          <a
+            v-if="data.contactTelegram"
+            class="text-blue-700 flex gap-2"
+            :href="`https://t.me/${data[col.field]}`"
+            target="_blank"
+          >
+            <span class="pi pi-telegram text-blue-500" />
+            <span>{{ data[col.field] }}</span>
+          </a>
+        </template>
 
-        <template #filter="{ filterModel, filterCallback }">
+        <template v-if="col.field === 'actions'" #body="{ data }">
+          <div class="flex gap-2 table-actions align-items-center">
+     
+            <Button
+              title="Редактировать собеседование"
+              :disabled="false"
+              class="w-full justify-content-center"
+              severity="info"
+              @click="router.push({ name: 'interview', params: { id: data.id } })"
+            >
+              <span :class="'pi pi-pencil'" />
+            </Button>
+
+            <Button
+               title="Удалить собеседование"
+              :disabled="false"
+              class="w-full justify-content-center"
+              severity="danger"
+              @click="removeInterview(data.id)"
+            >
+              <span :class="'pi pi-trash'" />
+            </Button>
+          </div>
+        </template>
+
+        <template #filter="{ filterModel, field, filterCallback }">
           <InputText
             v-model="filterModel.value"
             v-tooltip.top.focus="'После поиска нажмите Enter'"
             type="text"
+            :disabled="field === 'actions'"
             @keydown.enter="filterCallback()"
             class="p-column-filter"
           />
@@ -88,4 +133,18 @@ const columns = ref([
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.pi {
+  font-size: 18px;
+}
+
+a:hover {
+  color: rgb(1, 135, 230) !important;
+}
+
+@media (max-width: 800px) {
+  .table-actions {
+    flex-wrap: wrap;
+  }
+}
+</style>
