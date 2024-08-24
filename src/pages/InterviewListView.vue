@@ -38,13 +38,15 @@ const columns = ref([
     <Button
       title="Обновить список"
       class="mb-5"
-      :disabled="isRefetching || isLoading"
+      :disabled="isRefetching || isLoading || !interviews.length"
       :loading="isRefetching"
       @click="refetchInterviews()"
       :icon="'pi pi-refresh'"
     />
 
+    <InlineMessage class="block"v-if="!interviews.length">Данных нет</InlineMessage>
     <DataTable
+      v-else
       showGridlines
       :context-menu="true"
       :total-records="interviews.length"

@@ -15,6 +15,7 @@ declare module 'vue' {
     ConfirmDialog: typeof import('primevue/confirmdialog')['default']
     DataTable: typeof import('primevue/datatable')['default']
     FloatLabel: typeof import('primevue/floatlabel')['default']
+    InlineMessage: typeof import('primevue/inlinemessage')['default']
     Inputtext: typeof import('primevue/inputtext')['default']
     InputText: typeof import('primevue/inputtext')['default']
     Layout: typeof import('./src/components/layout/Layout.vue')['default']
