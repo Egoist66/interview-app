@@ -37,7 +37,7 @@ export const useInterviews = () => {
             const data = await getDocs(getData)
             const interviews = data.docs.map(doc => doc.data() as IInterView)
 
-            return interviews           
+            return interviews ?? []           
             
             
             
