@@ -63,7 +63,6 @@ export const useInterviews = () => {
     const removeInterview = async (id: string | number) => {
 
         const db = getFirestore()
-        const interview = interviewStore.interviews.find(interview => interview.id === id)
 
         try {
            

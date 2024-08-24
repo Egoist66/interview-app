@@ -11,7 +11,9 @@ import App from './App.vue'
 import router from './router'
 import PrimeVue from 'primevue/config';
 import ToastServie from 'primevue/toastservice';
+import ConfirmationService from 'primevue/confirmationservice';
 import { initFireBaseApp } from './service/firebase.config'
+import { welcomePlugin } from './plugins/welcome'
 
 
 
@@ -20,16 +22,14 @@ const app = createApp(App);
 
 
 app.use(ToastServie);
+app.use(ConfirmationService);
 app.use(PrimeVue, {
     ripple: true
 });
+
 app.use(createPinia())
 app.use(router)
-app.use({
-    install(app) {
-        console.log('💫 Welcome to the interview app');
-    }
-})
+app.use(welcomePlugin)
 
 app.mount('#app')
 
