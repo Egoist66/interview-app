@@ -7,7 +7,7 @@ import Column from "primevue/column";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 
-const { isLoading, refetchInterviews, isRefetching, removeInterview } = useInterviews();
+const { isLoading, refetchInterviews, isDeleting,  isRefetching, removeInterview } = useInterviews();
 const { interviews } = storeToRefs(useInterviewsStore());
 const router = useRouter()
 
@@ -46,6 +46,8 @@ const columns = ref([
 
     <DataTable
       showGridlines
+      :context-menu="true"
+      :total-records="interviews.length"
       stripedRows
       row-hover
       :resizable-columns="true"
@@ -137,6 +139,11 @@ const columns = ref([
 <style scoped>
 .pi {
   font-size: 18px;
+}
+
+table.blur {
+  filter: blur(3px) !important;
+  transition: 0.3s all ease;
 }
 
 a:hover {

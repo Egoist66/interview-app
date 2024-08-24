@@ -37,7 +37,7 @@ export const useInterviews = () => {
             const data = await getDocs(getData)
             const interviews = data.docs.map(doc => doc.data() as IInterView)
 
-            return interviews ?? []            
+            return interviews           
             
             
             
@@ -57,6 +57,7 @@ export const useInterviews = () => {
         await delay(1000)
 
         const interviews = await getInterviews()
+ 
         interviewStore.setInterviews(interviews ?? [])
         
         
@@ -66,16 +67,24 @@ export const useInterviews = () => {
     const removeInterview = async (id: string | number) => {
 
         const db = getFirestore()
+
         confirm.require({
-            message: 'Вы уверены, что хотите удалить интервью?',
+            message: 'Вы уверены, что хотите удалить запись c интервью?',
             header: 'Подтвердите действие',
             icon: 'pi pi-info-circle',
             rejectLabel: 'Отмена',
-            rejectClass: 'p-button-danger',
+            rejectClass: 'p-button-secondary p-button-outlined',
+            acceptClass: 'p-button-danger',
             acceptLabel: 'Удалить',
+            acceptIcon: 'pi pi-check',
+            blockScroll: true,
+           
+        
             accept: async () => {
+                isDeleting.value = true
+
+                await delay(500)
                 try {
-                    isDeleting.value = true
                     await deleteDoc(doc(db, `users/${userId.value}/interviews/${id}`))
                     await refetchInterviews()
                     toast.add({severity: 'success', summary: 'Успешно', detail: 'Интервью удалено', life: 3000})
@@ -86,8 +95,8 @@ export const useInterviews = () => {
                 }
                 finally {
                     isDeleting.value = false
-
                 }
+                
             }
         })
 
@@ -111,7 +120,8 @@ export const useInterviews = () => {
         refetchInterviews,
         isRefetching,
         removeInterview,
-        isLoading
+        isLoading,
+        isDeleting
     }
 
 }
