@@ -7,9 +7,15 @@ import Column from "primevue/column";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 
-const { isLoading, refetchInterviews, isDeleting,  isRefetching, removeInterview } = useInterviews();
+const {
+  isLoading,
+  refetchInterviews,
+  isDeleting,
+  isRefetching,
+  removeInterview,
+} = useInterviews();
 const { interviews } = storeToRefs(useInterviewsStore());
-const router = useRouter()
+const router = useRouter();
 
 const filters = ref({
   company: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
@@ -32,19 +38,21 @@ const columns = ref([
 
 <template>
   <Toast position="bottom-right" />
-  <ConfirmDialog/>
+  <ConfirmDialog />
   <h1 class="text-2xl mb-5 mt-0">Текущие собеседования</h1>
   <div>
-    <Button
-      title="Обновить список"
-      class="mb-5"
-      :disabled="isRefetching || isLoading || !interviews.length"
-      :loading="isRefetching"
-      @click="refetchInterviews()"
-      :icon="'pi pi-refresh'"
-    />
+    <div :title="!interviews.length ? 'Нет данных для обновления' : ''">
+      <Button
+        :title="'Обновить список'"
+        class="mb-5"
+        :disabled="isRefetching || isLoading || !interviews.length"
+        :loading="isRefetching"
+        @click="refetchInterviews()"
+        :icon="'pi pi-refresh'"
+      />
+    </div>
 
-    <InlineMessage class="block"v-if="!interviews.length">Данных нет</InlineMessage>
+    <InlineMessage class="block" v-if="!interviews.length">Данных нет</InlineMessage>
     <DataTable
       v-else
       showGridlines
@@ -100,7 +108,6 @@ const columns = ref([
 
         <template v-if="col.field === 'actions'" #body="{ data }">
           <div class="flex gap-2 table-actions align-items-center">
-     
             <Button
               title="Редактировать собеседование"
               :disabled="false"
@@ -112,7 +119,7 @@ const columns = ref([
             </Button>
 
             <Button
-               title="Удалить собеседование"
+              title="Удалить собеседование"
               :disabled="false"
               class="w-full justify-content-center"
               severity="danger"
