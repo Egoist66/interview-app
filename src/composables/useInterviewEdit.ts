@@ -6,6 +6,7 @@ import { storeToRefs } from "pinia";
 import { dbConnect } from "@/database/db-connect";
 import { delay } from "@/utils/delay";
 import { useToast } from "primevue/usetoast";
+import dayjs from "dayjs";
 
 export const useInterviewEdit = (routeID: string) => {
   const currentInterview = ref<IInterView>();
@@ -60,7 +61,7 @@ export const useInterviewEdit = (routeID: string) => {
         }
 
         currentInterview.value.stages?.push(
-        {id: crypto.randomUUID(), name: "", date: new Date(), description: "",}
+        {id: crypto.randomUUID(), name: "", date: '', description: "",}
         );
      
     }
@@ -78,17 +79,28 @@ export const useInterviewEdit = (routeID: string) => {
         isSaving.value = true;
         await delay(1000);
 
-        await updateDoc(docQuery, {
-          ...currentInterview.value
-        });
-        await refetchCurrentInterview();
+        if(currentInterview.value.stages?.length){
+          currentInterview.value.stages = currentInterview.value.stages?.map((stage: IStage) => {
+            return {
+                ...stage,
+                date: dayjs(stage.date).format("MM/DD/YYYY HH:mm"),
 
+            }
+          })
+
+          await updateDoc(docQuery, {
+            ...currentInterview.value
+          });
+        await refetchCurrentInterview();
         toast.add({
-          severity: "success",
-          summary: "Успешно",
-          detail: "Интервью обновлено",
-          life: 3000,
+            severity: "success",
+            summary: "Успешно",
+            detail: "Интервью обновлено",
+            life: 3000,
         })
+        }
+
+       
 
       } catch (error) {
         console.log(error);

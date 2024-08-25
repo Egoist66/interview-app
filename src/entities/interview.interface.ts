@@ -15,6 +15,6 @@ export interface IInterView {
 export interface IStage {
     id: string | number;
     name: string;
-    date: Date | null;
+    date: string;
     description: string;
 }
