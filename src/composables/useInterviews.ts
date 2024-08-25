@@ -1,5 +1,5 @@
 import { useAuthStore } from "@/stores/auth"
-import { getFirestore, collection, query, orderBy, getDocs, deleteDoc, doc } from "firebase/firestore";
+import {collection, query, orderBy, getDocs, deleteDoc, doc } from "firebase/firestore";
 import { storeToRefs } from "pinia"
 import { useInterviewsStore } from '@/stores/interviews';
 import { onMounted, ref } from "vue";
@@ -7,6 +7,7 @@ import { delay } from "@/utils/delay";
 import type { IInterView } from "@/entities/interview.interface";
 import { useToast } from "primevue/usetoast";
 import { useConfirm } from "primevue/useconfirm";
+import { dbConnect } from "@/database/db-connect";
 
 
 
@@ -19,7 +20,6 @@ export const useInterviews = () => {
 
     const interviewStore = useInterviewsStore()
     const {userId} = storeToRefs(useAuthStore())
-    const db = getFirestore()
 
 
     // state flags
@@ -33,7 +33,7 @@ export const useInterviews = () => {
         try {
             isLoading.value = true
 
-            const getData =  query(collection(db, `users/${userId.value}/interviews`), orderBy('createdAt', 'desc'))
+            const getData =  query(collection(dbConnect(), `users/${userId.value}/interviews`), orderBy('createdAt', 'desc'))
             const data = await getDocs(getData)
             const interviews = data.docs.map(doc => doc.data() as IInterView)
 
@@ -45,6 +45,7 @@ export const useInterviews = () => {
 
         catch (error) {
             console.log(error)
+            return []
         }
         finally {
             isLoading.value = false
@@ -66,7 +67,6 @@ export const useInterviews = () => {
 
     const removeInterview = async (id: string | number) => {
 
-        const db = getFirestore()
 
         confirm.require({
             message: 'Вы уверены, что хотите удалить запись c интервью?',
@@ -85,7 +85,7 @@ export const useInterviews = () => {
 
                 await delay(500)
                 try {
-                    await deleteDoc(doc(db, `users/${userId.value}/interviews/${id}`))
+                    await deleteDoc(doc(dbConnect(), `users/${userId.value}/interviews/${id}`))
                     await refetchInterviews()
                     toast.add({severity: 'success', summary: 'Успешно', detail: 'Интервью удалено', life: 3000})
                 }

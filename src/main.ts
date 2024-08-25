@@ -14,6 +14,7 @@ import ToastServie from 'primevue/toastservice';
 import ConfirmationService from 'primevue/confirmationservice';
 import { initFireBaseApp } from './service/firebase.config'
 import { welcomePlugin } from './plugins/welcome'
+import AnimateOnScroll from 'primevue/animateonscroll'
 
 
 
@@ -30,6 +31,9 @@ app.use(PrimeVue, {
 app.use(createPinia())
 app.use(router)
 app.use(welcomePlugin)
+
+app.directive('animateonscroll', AnimateOnScroll);
+
 
 app.mount('#app')
 

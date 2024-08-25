@@ -1,10 +1,7 @@
 import { computed, ref } from "vue";
 import {
   getAuth,
-  GoogleAuthProvider,
-  signInWithRedirect,
   onAuthStateChanged,
-  getRedirectResult,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
@@ -12,7 +9,6 @@ import { delay } from "@/utils/delay";
 import { useAuthStore } from "@/stores/auth";
 import { useRouter } from "vue-router";
 import { useToast } from "primevue/usetoast";
-import { useStorage } from "@vueuse/core";
 
 export const useAuth = () => {
  

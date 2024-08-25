@@ -6,5 +6,4 @@ export interface IInterView {
     contactTelegram?: string;
     contactPhone?: string;
     createdAt: string | number;
-    isDeleting?: boolean;
 }

@@ -1,5 +1,4 @@
 import { useAuthStore } from "@/stores/auth";
-import { delay } from "@/utils/delay";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { useRouter } from "vue-router";
 
