@@ -6,4 +6,15 @@ export interface IInterView {
     contactTelegram?: string;
     contactPhone?: string;
     createdAt: string | number;
+    salaryFrom?: number;
+    salaryTo?: number;
+    stages?: IStage[];
+    result?: 'Refusal' | 'Offer';
+}
+
+export interface IStage {
+    id: string | number;
+    name: string;
+    date: Date | null;
+    description: string;
 }
