@@ -70,6 +70,13 @@ export const useInterviewEdit = (routeID: string) => {
   const removeStage = (id: string | number) => {
     if (currentInterview.value) {
         currentInterview.value.stages = currentInterview.value.stages?.filter(stage => stage.id !== id)
+
+        toast.add({
+            severity: "success",
+            summary: "Успешно",
+            detail: "Этап удален",
+            life: 3000,
+        })
     }
   }
 
