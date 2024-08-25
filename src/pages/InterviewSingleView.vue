@@ -124,6 +124,7 @@ const parseTime = (date: Date) => {
                 v-model.trim="stage.name"
               />
             </div>
+            
             <div class="flex flex-column gap-2">
               <label :for="`stage-date-${stage.id}`">Дата прохождения этапа</label>
               <Calendar
@@ -132,7 +133,7 @@ const parseTime = (date: Date) => {
                 showTime
                 show-button-bar
                 hourFormat="24"
-                v-model="stage.date"
+                v-model="(stage.date as any)"
               />
             </div>
             <div class="flex flex-column gap-2">
