@@ -1,5 +1,9 @@
 <script setup lang="ts">
+import Debug from "@/components/service/Debug.vue";
+import { useDev } from "@/composables/useDev";
 import { useInterviewEdit } from "@/composables/useInterviewEdit";
+import { useThemeStore } from "@/stores/theme";
+import { storeToRefs } from "pinia";
 import { useRoute } from "vue-router";
 
 const route = useRoute();
@@ -15,15 +19,21 @@ const {
 
 
 
-const parseTime = (date: Date) => {
-  
-    return new Date(date.getTime())
-  
-}
+const {isDev} = useDev()
+const {theme} = storeToRefs(useThemeStore())
+
+
+
 </script>
 
 <template>
   <Toast position="bottom-right" />
+
+  <Debug 
+    :visible="isDev"
+    :state="currentInterview"
+    :style="{background: theme === 'aura-light-blue' ? 'ghostwhite' : 'black', fontSize: '16px'}"  
+  />
 
   <ProgressBar
     v-if="isLoading"
@@ -158,7 +168,7 @@ const parseTime = (date: Date) => {
             <RadioButton
               inputId="interviewResult1"
               name="result"
-              value="Refusal"
+              value="Отказ"
               v-model.trim="currentInterview.result"
             />
             <label for="interviewResult1" class="ml-2">Отказ</label>
@@ -167,10 +177,19 @@ const parseTime = (date: Date) => {
             <RadioButton
               inputId="interviewResult2"
               name="result"
-              value="Offer"
+              value="Оффер"
               v-model.trim="currentInterview.result"
             />
             <label for="interviewResult2" class="ml-2">Оффер</label>
+          </div>
+          <div class="flex align-items-center">
+            <RadioButton
+              inputId="interviewResult3"
+              name="result"
+              value=""
+              v-model.trim="currentInterview.result"
+            />
+            <label for="interviewResult3" class="ml-2">Не указан</label>
           </div>
         </div>
         <Button :disabled="isSaving" :label="isSaving ? 'Обновление...' : 'Сохранить'" icon="pi pi-save" @click="saveEdit()" class="mt-3" />

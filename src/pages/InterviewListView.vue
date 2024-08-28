@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import Debug from "@/components/service/Debug.vue";
+import { useDev } from "@/composables/useDev";
 import { useInterviews } from "@/composables/useInterviews";
 import { useInterviewsStore } from "@/stores/interviews";
 import { storeToRefs } from "pinia";
@@ -10,16 +12,18 @@ import { useRouter } from "vue-router";
 const {
   isLoading,
   refetchInterviews,
-  isDeleting,
   isRefetching,
   removeInterview,
 } = useInterviews();
+
 const { interviews } = storeToRefs(useInterviewsStore());
 const router = useRouter();
 
 const filters = ref({
   company: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
   hrName: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+  salaryFrom: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+  result: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
   vacancyLink: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
   contactPhone: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
   contactTelegram: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
@@ -29,16 +33,23 @@ const filters = ref({
 const columns = ref([
   { field: "company", header: "Компания" },
   { field: "vacancyLink", header: "Вакансия" },
+  { field: "salaryFrom", header: "Зарплата" },
+  { field: "result", header: "Статус" },
   { field: "hrName", header: "Имя HR" },
   { field: "contactPhone", header: "Номер телефона" },
   { field: "contactTelegram", header: "Telegram" },
   { field: "actions", header: "Действия" },
 ]);
+
+const {isDev} = useDev()
 </script>
 
 <template>
   <Toast position="bottom-right" />
   <ConfirmDialog />
+
+  <Debug :visible="isDev" :state="interviews" />
+
   <h1 class="text-2xl mb-5 mt-0">Текущие собеседования</h1>
   <div>
     <div :title="!interviews.length ? 'Нет данных для обновления' : ''">
@@ -70,10 +81,10 @@ const columns = ref([
       removableSort
       :always-show-paginator="true"
       :loading="isLoading || isRefetching"
-      :value="interviews"
+      :value="interviews.length ? interviews : []"
     >
       <Column
-        v-for="col of columns"
+        v-for="(col, i) of columns"
         :key="col.field"
         :field="col.field"
         :header="col.header"
@@ -87,10 +98,33 @@ const columns = ref([
           </a>
         </template>
 
+        <template #body="{ data }" v-if="col.field === 'salaryFrom'">
+          <div v-if="!data.salaryFrom" class="flex gap-2">
+            <span class="pi pi-dollar text-blue-500" />
+            <span>Не указано</span>
+          </div>
+
+          <div v-else class="flex gap-2">
+            <span class="pi pi-dollar text-blue-500" />
+            <span>{{ data.salaryFrom }} - {{ data.salaryTo }}</span>
+          </div>
+        </template>
+
+        <template #body="{ data }" v-if="col.field === 'result'">
+          <div v-if="!data.result" class="flex gap-2">
+            <Badge severity="warning">Ожидание</Badge>
+          </div>
+
+          <div v-else class="flex gap-2">
+            <Badge :severity="`${data.result === 'Отказ' ? 'danger' : 'success'}`">{{ data[col.field] }}</Badge>
+          </div>
+        </template>
+
+
         <template v-if="col.field === 'vacancyLink'" #body="{ data }">
           <a class="text-blue-700 flex gap-2" :href="data[col.field]" target="_blank">
             <span class="pi pi-link text-blue-500" />
-            <span>{{ data[col.field] }}</span>
+            <span class="underline">Ссылка на вакансию</span>
           </a>
         </template>
 
@@ -104,7 +138,17 @@ const columns = ref([
             <span class="pi pi-telegram text-blue-500" />
             <span>{{ data[col.field] }}</span>
           </a>
+
+          <div
+            v-else
+            class="text-blue-700 flex gap-2"
+            target="_blank"
+          >
+            <span class="pi pi-telegram text-blue-500" />
+            <span>Не указан</span>
+          </div>
         </template>
+
 
         <template v-if="col.field === 'actions'" #body="{ data }">
           <div class="flex gap-2 table-actions align-items-center">

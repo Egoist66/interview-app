@@ -9,7 +9,7 @@ export interface IInterView {
     salaryFrom?: number;
     salaryTo?: number;
     stages?: IStage[];
-    result?: 'Refusal' | 'Offer';
+    result?: 'Отказ' | 'Оффер' | '';
 }
 
 export interface IStage {

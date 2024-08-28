@@ -1,3 +1,4 @@
+import { useThemeStore } from "@/stores/theme";
 import { computed, onMounted, ref, watch, type ComputedRef, type Ref } from "vue";
 
 
@@ -13,6 +14,7 @@ type ThemeMode = 'aura-light-blue' | 'aura-dark-blue'
 export const useTheme = (): { theme: Ref<'aura-light-blue' | 'aura-dark-blue'>; computedThemeStyle: ComputedRef<string>; toggleTheme: () => void; } => {
 
 
+    const {setTheme} = useThemeStore()
     const theme = ref<ThemeMode>(localStorage.getItem('theme') as ThemeMode || 'aura-light-blue')
     const computedThemeStyle = computed(() => theme.value === 'aura-light-blue' ? '/themes/aura-light-blue/theme.min.css' : '/themes/aura-dark-blue/theme.min.css')
 
@@ -38,6 +40,8 @@ export const useTheme = (): { theme: Ref<'aura-light-blue' | 'aura-dark-blue'>; 
         link.href = computedThemeStyle.value;
         link.id = theme.value
         localStorage.setItem('theme', theme.value)
+
+        setTheme(theme.value)
 
        
     

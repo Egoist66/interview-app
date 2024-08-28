@@ -2,7 +2,7 @@ import { useAuthStore } from "@/stores/auth"
 import {collection, query, orderBy, getDocs, deleteDoc, doc } from "firebase/firestore";
 import { storeToRefs } from "pinia"
 import { useInterviewsStore } from '@/stores/interviews';
-import { onMounted, ref } from "vue";
+import { onBeforeMount, onMounted, ref } from "vue";
 import { delay } from "@/utils/delay";
 import type { IInterView } from "@/entities/interview.interface";
 import { useToast } from "primevue/usetoast";
@@ -35,6 +35,7 @@ export const useInterviews = () => {
 
             const getData =  query(collection(dbConnect(), `users/${userId.value}/interviews`), orderBy('createdAt', 'desc'))
             const data = await getDocs(getData)
+            
             const interviews = data.docs.map(doc => doc.data() as IInterView)
 
             return interviews ?? []           
@@ -105,10 +106,9 @@ export const useInterviews = () => {
     }
 
     
-    onMounted(async () => {
+    onBeforeMount(async () => {
       const interviews = await getInterviews()
       if(interviews?.length){
-       
         interviewStore.setInterviews(interviews)
       }
     })

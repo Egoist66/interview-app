@@ -28,9 +28,11 @@ export const useInterviewEdit = (routeID: string) => {
       isLoading.value = true;
 
       await delay(1000);
-
       const interview = await getDoc(docQuery);
-      currentInterview.value = interview.data() as IInterView;
+      if(interview.exists()){
+        currentInterview.value = interview.data() as IInterView;
+      }
+     
     } catch (error) {
       console.log(error);
     } finally {
@@ -67,8 +69,9 @@ export const useInterviewEdit = (routeID: string) => {
     }
   };
 
-  const removeStage = (id: string | number) => {
+  const removeStage = async (id: string | number) => {
     if (currentInterview.value) {
+
       currentInterview.value.stages = currentInterview.value.stages?.filter(
         (stage) => stage.id !== id
       );
@@ -81,6 +84,7 @@ export const useInterviewEdit = (routeID: string) => {
       });
     }
   };
+
 
   const saveEdit = async () => {
     if (currentInterview.value) {
