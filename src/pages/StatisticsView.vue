@@ -15,7 +15,7 @@ const { chartData, chartOptions, interviews } = useStatistics();
       class="w-full md:w-30rem"
     />
 
-    <InlineMessage class="block w-full" v-else>Нет данных</InlineMessage>
+    <InlineMessage class="block w-full" v-else>Данные по статистике отсутствуют</InlineMessage>
   </div>
 </template>
 
