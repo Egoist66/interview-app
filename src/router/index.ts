@@ -76,7 +76,7 @@ const router = createRouter({
       name: 'statistics',
       meta: {
         requiresAuth: true,
-        title: 'Статистика по интерьвью'
+        title: 'Статистика по собеседованиям'
       },
       component: () => import('@/pages/StatisticsView.vue')
     },

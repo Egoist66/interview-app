@@ -33,9 +33,11 @@ export const useInterviews = () => {
         try {
             isLoading.value = true
 
-            const getData =  query(collection(dbConnect(), `users/${userId.value}/interviews`), orderBy('createdAt', 'desc'))
-            const data = await getDocs(getData)
+            const getData =  query(collection(dbConnect(), `users/${userId.value}/interviews`),
+             orderBy('createdAt', 'desc')
+            )
             
+            const data = await getDocs(getData)
             const interviews = data.docs.map(doc => doc.data() as IInterView)
 
             return interviews ?? []           
