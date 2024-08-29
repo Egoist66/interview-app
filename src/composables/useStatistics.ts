@@ -48,7 +48,7 @@ export const useStatistics = () => {
             else if(interview.result === 'Отказ'){
                 data[1]++
             }
-            else if(interview.result === ''){
+            else if(interview.result === '' || (interview.result == null || undefined)){
                 data[2]++
 
             }
