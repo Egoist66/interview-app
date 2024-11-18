@@ -5,7 +5,6 @@ import AppHeader from '@/components/AppHeader.vue';
 import { delay } from '@/utils/delay';
 import {onMounted } from 'vue';
 import { useAuth } from './composables/useAuth';
-import { useAuthStore } from './stores/auth';
 import { useApp } from './composables/useApp';
 
 const {checkIsAuth} = useAuth()

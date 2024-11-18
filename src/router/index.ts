@@ -42,6 +42,7 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
+      alias: '/home',
       meta: {
         requiresAuth: true,
         title: 'Органайзер интервью'

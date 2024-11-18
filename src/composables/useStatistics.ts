@@ -4,7 +4,7 @@ import { useAuthStore } from "@/stores/auth";
 import { collection, query, getDocs, orderBy } from "firebase/firestore";
 import { storeToRefs } from "pinia";
 import { useConfirm } from "primevue/useconfirm";
-import { onBeforeMount, onMounted, onUpdated, ref, watch } from "vue";
+import { onBeforeMount, ref, watch } from "vue";
 
 export const useStatistics = () => {
   const chartData = ref();

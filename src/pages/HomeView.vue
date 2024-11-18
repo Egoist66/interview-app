@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useInterviewCreate } from "@/composables/useInterviewCreate";
-import { computed } from "vue";
 
 const {
   company,
